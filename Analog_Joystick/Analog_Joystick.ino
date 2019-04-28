@@ -13,14 +13,27 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("Switch:  ");
-  Serial.print(digitalRead(SW_pin));
-  Serial.print("\n");
-  Serial.print("X-axis: ");
-  Serial.print(analogRead(X_pin));
-  Serial.print("\n");
-  Serial.print("Y-axis: ");
-  Serial.println(analogRead(Y_pin));
-  Serial.print("\n\n");
+  
+//  Serial.print("Switch:  ");
+//  Serial.print(digitalRead(SW_pin));
+
+    Serial.write(digitalRead(SW_pin));
+
+////  Serial.print("\n");
+////  Serial.print("X-axis: ");
+////  Serial.print(analogRead(X_pin));
+//    if(analogRead(X_pin) != 1)
+//      Serial.write(3); //right
+    if(analogRead(X_pin) == 0)
+      Serial.write(3); //left
+//    Serial.write(analogRead(X_pin));
+
+////  Serial.print("\n");
+////  Serial.print("Y-axis: ");
+////  Serial.println(analogRead(Y_pin));
+      if(analogRead(Y_pin) == 0)
+        Serial.write(4); //up
+
+////  Serial.print("\n\n");
   delay(500);
 }

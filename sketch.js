@@ -58,7 +58,8 @@ function draw() {
   background(30);
 
   // map mouseY to modulator freq between a maximum and minimum frequency
-  let modFreq = map(mouseY, height, 0, modMinFreq, modMaxFreq);
+  // let modFreq = map(mouseY, height, 0, modMinFreq, modMaxFreq);
+  let modFreq = 50;
   modulator.freq(modFreq);
 
   // change the amplitude of the modulator
@@ -94,9 +95,26 @@ function draw() {
     20,
     60
   );
-  // text(
-  //   'Serial Data in:' + inData, 20, 80
-  // );
+  text(
+    'Serial Data in: ' + inData, 20, 80
+  );
+
+  if(inData == 0)
+  {
+      carrier.amp(1.0, 0.01);
+  }
+  else if(inData == 1)
+  {
+    carrier.amp(0.0, 1.0);
+  }
+  else if(inData == 3)
+  {
+    modFreq++;
+  }
+  else if(inData == 4)
+  {
+    modFreq = modFreq - 100;
+  }
 }
 
 // helper function to toggle sound
@@ -130,7 +148,6 @@ function printList(portList) {
  
  function serialEvent() {
    inData = Number(serial.read());
-   console.log(inData);
  }
  
  function serialError(err) {
