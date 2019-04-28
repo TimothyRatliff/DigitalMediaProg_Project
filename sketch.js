@@ -13,6 +13,11 @@ let modMinFreq = 0;
 let modMaxDepth = 150;
 let modMinDepth = -150;
 
+var serial;   // variable to hold an instance of the serialport library
+var portName = 'Arduino/Genuino Uno';    // fill in your serial port name here
+var inData;   // variable to hold the input data from Arduino
+
+
 function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
   noFill();
@@ -35,6 +40,18 @@ function setup() {
 
   // fade carrier in/out on mouseover / touch start
   toggleAudio(cnv);
+
+  // //set up communication port
+  // serial = new p5.SerialPort();       // make a new instance of the serialport library
+  // serial.on('list', printList);  // set a callback function for the serialport list event
+  // serial.on('connected', serverConnected); // callback for connecting to the server
+  // serial.on('open', portOpen);        // callback for the port opening
+  // serial.on('data', serialEvent);     // callback for when new data arrives
+  // serial.on('error', serialError);    // callback for errors
+  // serial.on('close', portClose);      // callback for the port closing
+
+  // serial.list();                      // list the serial ports
+  // serial.open(portName);              // open a serial port
 }
 
 function draw() {
@@ -77,6 +94,9 @@ function draw() {
     20,
     60
   );
+  // text(
+  //   'Serial Data in:' + inData, 20, 80
+  // );
 }
 
 // helper function to toggle sound
