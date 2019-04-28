@@ -14,7 +14,7 @@ let modMaxDepth = 150;
 let modMinDepth = -150;
 
 function setup() {
-  let cnv = createCanvas(800, 400);
+  let cnv = createCanvas(windowWidth, windowHeight);
   noFill();
 
   carrier = new p5.Oscillator('sine');
@@ -74,20 +74,20 @@ function draw() {
   );
   text(
     'Carrier Frequency (pre-modulation): ' + carrierBaseFreq + ' Hz',
-    width / 2,
-    20
+    20,
+    60
   );
 }
 
 // helper function to toggle sound
 function toggleAudio(cnv) {
-  cnv.mouseOver(function() {
+  cnv.mouseClicked(function() {
     carrier.amp(1.0, 0.01);
   });
   cnv.touchStarted(function() {
     carrier.amp(1.0, 0.01);
   });
-  cnv.mouseOut(function() {
+  cnv.mouseClicked(function() {
     carrier.amp(0.0, 1.0);
   });
 }
