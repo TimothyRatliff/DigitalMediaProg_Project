@@ -1,13 +1,12 @@
 
-let carrier; // this is the oscillator we will hear
-let modulator; // this oscillator will modulate the frequency of the carrier
+let carrier; 
+let modulator; 
 
-let analyzer; // we'll use this visualize the waveform
+let analyzer; 
 
-// the carrier frequency pre-modulation
 let carrierBaseFreq = 220;
 
-// min/max ranges for modulator
+
 let modMaxFreq = 112;
 let modMinFreq = 0;
 let modMaxDepth = 150;
@@ -15,9 +14,9 @@ let modMinDepth = -150;
 let freqX = 50;
 let freqY;
 
-var serial;   // variable to hold an instance of the serialport library
-var portName = 'COM3';    // fill in your serial port name here
-var inData;   // variable to hold the input data from Arduino
+var serial;   
+var portName = 'COM3';   
+var inData;   
 
 
 function setup() {
@@ -25,35 +24,32 @@ function setup() {
   noFill();
 
   carrier = new p5.Oscillator('sine');
-  carrier.amp(0); // set amplitude
-  carrier.freq(carrierBaseFreq); // set frequency
-  carrier.start(); // start oscillating
+  carrier.amp(0); 
+  carrier.freq(carrierBaseFreq); 
+  carrier.start(); 
 
-  // try changing the type to 'square', 'sine' or 'triangle'
   modulator = new p5.Oscillator('sawtooth');
   modulator.start();
 
-  // add the modulator's output to modulate the carrier's frequency
+
   modulator.disconnect();
   carrier.freq(modulator);
 
-  // create an FFT to analyze the audio
+
   analyzer = new p5.FFT();
 
-  // fade carrier in/out on mouseover / touch start
   toggleAudio(cnv);
 
-  //set up communication port
-  serial = new p5.SerialPort();       // make a new instance of the serialport library
+  serial = new p5.SerialPort();    
   serial.on('list', printList);  // set a callback function for the serialport list event
-  serial.on('connected', serverConnected); // callback for connecting to the server
-  serial.on('open', portOpen);        // callback for the port opening
-  serial.on('data', serialEvent);     // callback for when new data arrives
-  serial.on('error', serialError);    // callback for errors
-  serial.on('close', portClose);      // callback for the port closing
+  serial.on('connected', serverConnected); 
+  serial.on('open', portOpen);        
+  serial.on('data', serialEvent);     
+  serial.on('error', serialError);   
+  serial.on('close', portClose);     
 
-  serial.list();                      // list the serial ports
-  serial.open(portName);              // open a serial port
+  serial.list();                    
+  serial.open(portName);         
 }
 
 function draw() {
@@ -65,16 +61,13 @@ function draw() {
   modulator.freq(modFreq);
 
   // change the amplitude of the modulator
-  // negative amp reverses the sawtooth waveform, and sounds percussive
-  //
   freqX = mouseX;
   let modDepth = map(freqX, 0, width, modMinDepth, modMaxDepth);
   modulator.amp(modDepth);
 
-  // analyze the waveform
   waveform = analyzer.waveform();
 
-  // draw the shape of the waveform
+ 
   stroke(255);
   strokeWeight(10);
   beginShape();
@@ -86,17 +79,11 @@ function draw() {
   endShape();
 
   strokeWeight(1);
-  // add a note about what's happening
   text('Modulator Frequency: ' + modFreq.toFixed(3) + ' Hz', 20, 20);
   text(
     'Modulator Amplitude (Modulation Depth): ' + modDepth.toFixed(3),
     20,
     40
-  );
-  text(
-    'Carrier Frequency (pre-modulation): ' + carrierBaseFreq + ' Hz',
-    20,
-    60
   );
   text(
     'Serial Data in: ' + inData, 20, 80
@@ -124,7 +111,6 @@ function draw() {
   
 }
 
-// helper function to toggle sound
 function toggleAudio(cnv) {
   cnv.mouseClicked(function() {
     carrier.amp(1.0, 0.01);
@@ -138,9 +124,7 @@ function toggleAudio(cnv) {
 }
 
 function printList(portList) {
-  // portList is an array of serial port names
   for (var i = 0; i < portList.length; i++) {
-  // Display the list the console:
   print(i + " " + portList[i]);
   }
  }
