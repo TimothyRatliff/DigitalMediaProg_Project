@@ -12,6 +12,8 @@ let modMaxFreq = 112;
 let modMinFreq = 0;
 let modMaxDepth = 150;
 let modMinDepth = -150;
+let freqX = 50;
+let freqY;
 
 var serial;   // variable to hold an instance of the serialport library
 var portName = 'COM3';    // fill in your serial port name here
@@ -58,14 +60,15 @@ function draw() {
   background(30);
 
   // map mouseY to modulator freq between a maximum and minimum frequency
-  // let modFreq = map(mouseY, height, 0, modMinFreq, modMaxFreq);
-  let modFreq = 50;
+  freqY = mouseY;
+  let modFreq = map(freqY, height, 0, modMinFreq, modMaxFreq);
   modulator.freq(modFreq);
 
   // change the amplitude of the modulator
   // negative amp reverses the sawtooth waveform, and sounds percussive
   //
-  let modDepth = map(mouseX, 0, width, modMinDepth, modMaxDepth);
+  freqX = mouseX;
+  let modDepth = map(freqX, 0, width, modMinDepth, modMaxDepth);
   modulator.amp(modDepth);
 
   // analyze the waveform
@@ -107,14 +110,18 @@ function draw() {
   {
     carrier.amp(0.0, 1.0);
   }
-  else if(inData == 3)
+  if(inData == 3)
   {
-    modFreq++;
+    console.log("indata = 3");
+    freqX++;
+
   }
   else if(inData == 4)
   {
-    modFreq = modFreq - 100;
+    console.log("indata = 4");
+    freqY++;
   }
+  
 }
 
 // helper function to toggle sound
